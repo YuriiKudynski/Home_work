@@ -97,6 +97,14 @@ def change_password(email):
     print("User not found!")
 
 
+# If unique email in users
+def is_email_unique(new_email, users):
+    for user in users:
+        if user["email"] == new_email:
+            return False
+    return True
+
+
 # Func for change email.
 def change_email(email):
     # Load users.
@@ -105,9 +113,13 @@ def change_email(email):
     for user in users:
         if user["email"] == email:
             new_email = input("Enter new email: ")
-            user["email"] = new_email
-            save_users(users)
-            print("Email changed!")
+
+            if is_email_unique(new_email, users):
+                user["email"] = new_email
+                save_users(users)
+                print("Email changed!")
+            else:
+                print("Email already exists. Choose a different one.")
             return
     print("User not found!")
 
