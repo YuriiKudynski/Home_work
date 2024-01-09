@@ -1,4 +1,4 @@
-from code import BankAccount
+from code import BankAccount, Money
 
 user1 = BankAccount("Mikky Ruk", "31567", 200, "USD")
 user2 = BankAccount("Alice Parker", "34565", 100, "USD")
