@@ -1,0 +1,1 @@
+{"owner_name": "Alice Parker", "balance_amount": 1000, "balance_currency": "USD"}

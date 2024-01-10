@@ -1,0 +1,1 @@
+{"owner_name": "Nikky Mick", "balance_amount": 800, "balance_currency": "EUR"}
