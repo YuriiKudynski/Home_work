@@ -69,7 +69,7 @@ class BankAccount:
             amount_in_target_currency = amount / exchange_rate_to_target
 
             if self._balance.amount >= amount:
-                self.withdraw(amount)
+                self._balance.amount -= amount
                 target_account.deposit(amount_in_target_currency)
                 print(f"Трансфер {amount} {self_currency} відбувся.\n"
                       f"Баланс рахунку {self.__account_number}: {self._balance}\n"
@@ -136,7 +136,6 @@ class BankAccount:
             if account.__account_number == account_number:
                 cls.accounts.remove(account)
 
-                # Видалення файлу з даними
                 filename = os.path.join(os.path.dirname(__file__), "data", f"{account_number}.txt")
                 if os.path.exists(filename):
                     os.remove(filename)
