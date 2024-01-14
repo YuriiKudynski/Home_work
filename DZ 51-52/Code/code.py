@@ -64,13 +64,16 @@ class BankAccount:
 
     def _calculate_transfer_amount(self, target_account, amount):
         try:
-            rate_self = BankAccount.__exchange_rate[self._balance.currency]
-            rate_target_acc = BankAccount.__exchange_rate[target_account._balance.currency]
-        except Exception as e:
-            raise ValueError(f"Валюти не знайдено в списку: {e}")
+            rate_self = BankAccount.__exchange_rate.get(self._balance.currency)
+            rate_target_acc = BankAccount.__exchange_rate.get(target_account._balance.currency)
 
-        new_amount = (amount * rate_self) / rate_target_acc
-        return new_amount
+            if rate_self is None or rate_target_acc is None:
+                raise ValueError("Обмінний курс не визначений для однієї з валют")
+
+            new_amount = (amount * rate_self) / rate_target_acc
+            return new_amount
+        except Exception as e:
+            raise ValueError(f"Помилка при обчисленні обмінного курсу: {e}")
 
     def transfer_funds(self, target_account, amount):
         self_currency = self._balance.currency
@@ -86,8 +89,10 @@ class BankAccount:
                       f"Баланс рахунку {target_account.__account_number}: {target_account._balance}")
             else:
                 print(f"Недостатньо коштів на рахунку {self.__account_number} для трансферу.")
-        except Exception as e:
+        except ValueError as e:
             print(f"Помилка при обробці трансферу: {e}")
+        except Exception as e:
+            print(f"Інша помилка при обробці трансферу: {e}")
 
     @staticmethod
     def check_account_number(account_number):
@@ -158,3 +163,4 @@ class BankAccount:
             print(f"Рахунок з номером {account_number} не знайдено.")
 
 
+BankAccount.get_exchange_rate()
