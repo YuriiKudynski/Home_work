@@ -16,7 +16,7 @@ class Money:
 
 class BankAccount:
     accounts = []
-    __exchange_rate = {}
+    __exchange_rate = {"cc": "UAH", "rate": 1}
 
     @classmethod
     def get_exchange_rate(cls):
@@ -36,6 +36,7 @@ class BankAccount:
             print("Рахунок із таким номером вже існує!")
         else:
             self.__class__.accounts.append(self)
+            self.save_data()
 
     def __str__(self):
         return f"Account: {self.__account_number}"
@@ -54,23 +55,28 @@ class BankAccount:
     def change_owner_name(self, new_name):
         self.owner_name = new_name
         print(f"Імя власника рахунку змінено на {new_name}!")
+        self.save_data()
 
     def display_account_info(self):
         print(f"\nOwner name: {self.owner_name}"
               f"\nAccount number: {self.__account_number}"
               f"\nBalance: {self._balance.amount} {self._balance.currency}")
 
+    def _calculate_transfer_amount(self, target_account, amount):
+        rate_self = BankAccount.__exchange_rate.get(self._balance.currency, 1)
+        rate_target_acc = BankAccount.__exchange_rate.get(target_account._balance.currency, 1)
+        new_amount = (amount * rate_self) / rate_target_acc
+        return new_amount
+
     def transfer_funds(self, target_account, amount):
         self_currency = self._balance.currency
-        target_currency = target_account._balance.currency
 
         try:
-            exchange_rate_to_target = BankAccount.__exchange_rate.get(target_currency, 1)
-            amount_in_target_currency = amount / exchange_rate_to_target
-
             if self._balance.amount >= amount:
+                new_amount = self._calculate_transfer_amount(target_account, amount)
                 self._balance.amount -= amount
-                target_account.deposit(amount_in_target_currency)
+                target_account._balance.amount += new_amount
+
                 print(f"Трансфер {amount} {self_currency} відбувся.\n"
                       f"Баланс рахунку {self.__account_number}: {self._balance}\n"
                       f"Баланс рахунку {target_account.__account_number}: {target_account._balance}")
@@ -92,6 +98,7 @@ class BankAccount:
         if not BankAccount.check_account_number(new_account_number):
             raise ValueError("Некоректний номер рахунку")
         self.__account_number = new_account_number
+        self.save_data()
 
     @classmethod
     def find_accounts_by_owner(cls, owner_name):
@@ -145,3 +152,6 @@ class BankAccount:
                 break
         else:
             print(f"Рахунок з номером {account_number} не знайдено.")
+
+
+BankAccount.get_exchange_rate()
