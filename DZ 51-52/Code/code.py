@@ -16,7 +16,7 @@ class Money:
 
 class BankAccount:
     accounts = []
-    __exchange_rate = {"cc": "UAH", "rate": 1}
+    __exchange_rate = {"UAH": 1}
 
     @classmethod
     def get_exchange_rate(cls):
@@ -63,8 +63,12 @@ class BankAccount:
               f"\nBalance: {self._balance.amount} {self._balance.currency}")
 
     def _calculate_transfer_amount(self, target_account, amount):
-        rate_self = BankAccount.__exchange_rate.get(self._balance.currency, 1)
-        rate_target_acc = BankAccount.__exchange_rate.get(target_account._balance.currency, 1)
+        try:
+            rate_self = BankAccount.__exchange_rate[self._balance.currency]
+            rate_target_acc = BankAccount.__exchange_rate[target_account._balance.currency]
+        except Exception as e:
+            raise ValueError(f"Валюти не знайдено в списку: {e}")
+
         new_amount = (amount * rate_self) / rate_target_acc
         return new_amount
 
@@ -154,4 +158,3 @@ class BankAccount:
             print(f"Рахунок з номером {account_number} не знайдено.")
 
 
-BankAccount.get_exchange_rate()
