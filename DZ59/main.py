@@ -63,7 +63,8 @@ class EmailDescriptor:
         return instance._email
 
     def __set__(self, instance, value):
-        email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+        """Foo for email with module re"""
+        email_pattern = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 
         if not re.match(email_pattern, value):
             raise ValueError("Invalid format email!")
