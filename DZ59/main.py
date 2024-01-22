@@ -66,7 +66,7 @@ class EmailDescriptor:
 
     def __delete__(self, instance):
         print(f"Delete Email completed!")
-        delattr(instance, '_email')
+        return delattr(instance, '_email')
 
 
 class User:
@@ -94,6 +94,8 @@ class User:
 user1 = User("username12", "Alice", "Parker", "alo@gmail.com", "123gasea")
 print(user1)
 user1.password = "aloha102"
+del user1.email
+user1.email = "test@com.ua"
 print(user1)
 
 
