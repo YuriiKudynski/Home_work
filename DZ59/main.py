@@ -26,7 +26,7 @@ class NameDescriptor:
 
     def __delete__(self, instance):
         print(f"Delete Name completed!")
-        return delattr(instance, self.var)
+        delattr(instance, self.var)
 
 
 class PasswordDescriptor:
@@ -48,7 +48,7 @@ class PasswordDescriptor:
 
     def __delete__(self, instance):
         print(f"Delete Password completed!")
-        return delattr(instance, self.var)
+        delattr(instance, self.var)
 
 
 class EmailDescriptor:
@@ -66,7 +66,7 @@ class EmailDescriptor:
 
     def __delete__(self, instance):
         print(f"Delete Email completed!")
-        return delattr(instance, '_email')
+        delattr(instance, '_email')
 
 
 class User:
