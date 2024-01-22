@@ -17,8 +17,12 @@ class NameDescriptor:
         return getattr(instance, self.var)
 
     def __set__(self, instance, value):
+        """Set values with some foo"""
+        # For first_name and last_name use only letters.
+        # For user_name we can use all symbol, first symbol must be letter.
         if self.only_letters and not value.isalpha():
             raise ValueError("First Name and Last Name must have only letters!")
+        # Len must be more min_length and lower max_length
         if self.min_length <= len(value) <= self.max_length and value[0].isalpha():
             setattr(instance, self.var, value)
         else:
@@ -30,6 +34,7 @@ class NameDescriptor:
 
 
 class PasswordDescriptor:
+    # Password must have symbols more min_length
 
     def __init__(self, min_length):
         self.min_length = min_length
@@ -52,6 +57,7 @@ class PasswordDescriptor:
 
 
 class EmailDescriptor:
+    # Use module re for have a true email view
 
     def __get__(self, instance, owner):
         return instance._email
@@ -76,7 +82,7 @@ class User:
     email = EmailDescriptor()
     password = PasswordDescriptor(7)
 
-    def __init__(self, username, first_name, last_name, email, password):
+    def __init__(self, username: str, first_name: str, last_name: str, email: str, password: (str, int)):
         self.username = username
         self.first_name = first_name
         self.last_name = last_name
@@ -84,6 +90,7 @@ class User:
         self.password = password
 
     def __repr__(self):
+        """Return display_info created user"""
         return (f"User:\nusername={self.username}"
                 f"\nfirst_name={self.first_name}"
                 f"\nlast_name={self.last_name}"
