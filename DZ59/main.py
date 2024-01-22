@@ -57,21 +57,29 @@ class PasswordDescriptor:
 
 
 class EmailDescriptor:
+    email_data = []
     # Use module re for have a true email view
 
     def __get__(self, instance, owner):
         return instance._email
 
     def __set__(self, instance, value):
-        """Foo for email with module re"""
+        """Foo for email with module re and unique system"""
         email_pattern = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
 
         if not re.match(email_pattern, value):
             raise ValueError("Invalid format email!")
 
-        instance._email = value
+        if value not in EmailDescriptor.email_data:
+            # Unique email system
+            EmailDescriptor.email_data.append(value)
+            instance._email = value
+        else:
+            raise ValueError("Email was registered!")
 
     def __delete__(self, instance):
+        # Delete from list deleted email
+        EmailDescriptor.email_data.remove(instance._email)
         print(f"Delete Email completed!")
         delattr(instance, '_email')
 
@@ -92,18 +100,21 @@ class User:
 
     def __repr__(self):
         """Return display_info created user"""
-        return (f"User:\nusername={self.username}"
+        return (f"\nUser:\nusername={self.username}"
                 f"\nfirst_name={self.first_name}"
                 f"\nlast_name={self.last_name}"
                 f"\nemail={self.email}"
-                f"\npassword={self.password}")
+                f"\npassword={self.password}\n")
 
 
-user1 = User("username12", "Alice", "Parker", "alo@gmail.com", "123gasea")
-print(user1)
+user1 = User("username12", "Alice", "Parker", "test@com.ua", "123gasea")
 user1.password = "aloha102"
 del user1.email
-user1.email = "test@com.ua"
+user1.email = "test@gmail.com"
+user2 = User("Naomi-", "Naomi", "Junior", "test@com.ua", "123asda")
 print(user1)
+print(user2)
+print(EmailDescriptor.email_data)
+
 
 
