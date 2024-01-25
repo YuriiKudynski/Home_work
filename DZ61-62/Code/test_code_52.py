@@ -10,6 +10,7 @@ class TestBankAccount(unittest.TestCase):
         self.account3 = BankAccount("Mia", "81921", 200, "UAH")
 
     def tearDown(self):
+        BankAccount.accounts.clear()
         del self.account1
         del self.account2
         del self.account3
