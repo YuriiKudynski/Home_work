@@ -11,6 +11,8 @@ class TestBankAccount(unittest.TestCase):
 
     def tearDown(self):
         del self.account1
+        del self.account2
+        del self.account3
 
     def test_deposit(self):
         self.account1.deposit(50)
