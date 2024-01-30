@@ -53,6 +53,18 @@ class LinkedList:
 
         self.head = self.head.next_node
 
+    def replace_value(self, old_value, new_value, replace_all=False):
+        current_node = self.head
+
+        while current_node:
+            if current_node.data == old_value:
+                current_node.data = new_value
+
+                if not replace_all:
+                    return
+
+            current_node = current_node.next_node
+
     @property
     def size(self):
         count = 0
@@ -112,8 +124,14 @@ def menu():
             pass
             print("На стадії розробки!")
         elif choice == 7:
-            pass
-            print("На стадії розробки!")
+            prev_data = input("Введіть значення для заміни: ")
+            new_data = input("Введіть нове значення для заміни: ")
+            menu_choice = input("Введіть 1 якщо заміна 1 елемента. 2 якщо всі елементи: ")
+            if menu_choice == 1:
+                linked_list.replace_value(prev_data, new_data, replace_all=False)
+            elif menu_choice == 2:
+                linked_list.replace_value(prev_data, new_data, replace_all=True)
+            print("Заміна успішна!")
         elif choice == 8:
             print(f'Розмір списку: {linked_list.size}')
         elif choice == 9:
