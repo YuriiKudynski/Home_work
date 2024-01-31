@@ -53,6 +53,21 @@ class LinkedList:
 
         self.head = self.head.next_node
 
+    def delete_by_value(self, target, count=1):
+        current = self.head
+        prev_data = None
+        deleted_count = 0
+        while current and deleted_count < count:
+            if current.data == target:
+                if prev_data:
+                    prev_data.next = current.next
+                else:
+                    self.head = current.next
+                deleted_count += 1
+            else:
+                prev_data = current
+            current = current.next
+
     def replace_value(self, old_value, new_value, replace_all=False):
         current_node = self.head
 
@@ -121,8 +136,14 @@ def menu():
             linked_list.del_first()
             print("Перший елемент списку видалено!")
         elif choice == 6:
-            pass
-            print("На стадії розробки!")
+            target = input("Введіть значення для видалення")
+            count = int(input("Кількість елементів: "))
+            if target in linked_list:
+                linked_list.delete_by_value(target)
+            elif count > 1:
+                linked_list.delete_by_value(target, count)
+            else:
+                print("Значення не має в списку!")
         elif choice == 7:
             prev_data = input("Введіть значення для заміни: ")
             new_data = input("Введіть нове значення для заміни: ")
