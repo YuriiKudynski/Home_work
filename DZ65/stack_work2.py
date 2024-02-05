@@ -31,6 +31,8 @@ def check_brackets(inputs):
 
 
 print(check_brackets("((()))"))
+print(check_brackets("((()))"))
 print(check_brackets("(()()())"))
 print(check_brackets("((())"))
 print(check_brackets("())("))
+
