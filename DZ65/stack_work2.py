@@ -19,20 +19,16 @@ class Stack:
 def check_brackets(inputs):
     stack = Stack()
     for item in inputs:
-        if item in "(":
+        if item == "(":
             stack.push(item)
-        elif item in ")":
+        elif item == ")":
             if stack.is_empty():
                 return False
-            top_item = stack.pop()
-            if item == ")" and top_item != "(":
-                return False
+            stack.pop()
     return stack.is_empty()
 
 
 print(check_brackets("((()))"))
-print(check_brackets("((()))"))
 print(check_brackets("(()()())"))
 print(check_brackets("((())"))
 print(check_brackets("())("))
-
