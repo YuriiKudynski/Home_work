@@ -1,0 +1,20 @@
+[
+    {
+        "employee": {
+            "last_name": "Bon",
+            "first_name": "Jovi",
+            "position": "Sales"
+        },
+        "car": {
+            "manufacturer": "Mazda",
+            "year": 6,
+            "model": "6",
+            "cost_price": 20000.0,
+            "selling_price": 25000.0,
+            "quantity": 1,
+            "quantity_left": 1,
+            "sold": false
+        },
+        "actual_price": 60000.0
+    }
+]
